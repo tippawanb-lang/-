@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แดชบอร์ดบุคลากรสายวิชาการ | คณะวิศวกรรมศาสตร์ มทร.ธัญบุรี</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts (Prompt for Thai) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Prompt', 'sans-serif'],
+                    },
+                    colors: {
+                        rmutt: {
+                            navy: '#0F172A',
+                            red: '#991B1B',
+                            gold: '#EAB308'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Prompt', sans-serif; }
+        /* Smooth scrolling and transitions */
+        * { transition: all 0.2s ease-in-out; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen">
+
+    <!-- Top Accent Bar -->
+    <div class="h-2 w-full bg-gradient-to-r from-rmutt-navy via-rmutt-red to-rmutt-gold"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Header Section -->
+        <header class="mb-10 text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <h1 class="text-2xl md:text-3xl font-bold text-rmutt-navy mb-2">
+                    <i class="fa-solid fa-chart-line text-rmutt-red mr-2"></i>ระบบสารสนเทศบุคลากรเสนอขอกำหนดตำแหน่งทางวิชาการ
+                </h1>
+                <p class="text-slate-500 font-medium">คณะวิศวกรรมศาสตร์ มหาวิทยาลัยเทคโนโลยีราชมงคลธัญบุรี (ปีงบประมาณ 2566 - 2570)</p>
+            </div>
+            <!-- Optional: Logo or System Status could go here -->
+            <div class="hidden md:block">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                    <i class="fa-solid fa-circle text-[10px] mr-2"></i> ข้อมูลอัปเดตล่าสุด
+                </span>
+            </div>
+        </header>
+
+        <!-- Section 1: KPI Cards -->
+        <section class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+            <!-- Card 1: Total -->
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 hover:shadow-md flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
+                    <i class="fa-solid fa-users text-xl"></i>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-500 font-medium mb-1">บุคลากรทั้งหมด (ปี 2570)</p>
+                    <h3 class="text-2xl font-bold text-slate-800" id="kpi-total">209 <span class="text-sm font-normal text-slate-500">คน</span></h3>
+                </div>
+            </div>
+
+            <!-- Card 2: ผศ. -->
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 hover:shadow-md flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 shrink-0">
+                    <i class="fa-solid fa-arrow-trend-up text-xl"></i>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-500 font-medium mb-1">ผู้ช่วยศาสตราจารย์ (ผศ.)</p>
+                    <h3 class="text-2xl font-bold text-slate-800" id="kpi-asst-prof">115 <span class="text-sm font-normal text-slate-500">คน</span></h3>
+                    <p class="text-[10px] text-green-600 mt-1"><i class="fa-solid fa-caret-up mr-1"></i>เพิ่มขึ้นจาก 111 คน</p>
+                </div>
+            </div>
+
+            <!-- Card 3: รศ. -->
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 hover:shadow-md flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 shrink-0">
+                    <i class="fa-solid fa-star text-xl"></i>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-500 font-medium mb-1">รองศาสตราจารย์ (รศ.)</p>
+                    <h3 class="text-2xl font-bold text-slate-800" id="kpi-assoc-prof">52 <span class="text-sm font-normal text-slate-500">คน</span></h3>
+                    <p class="text-[10px] text-green-600 mt-1"><i class="fa-solid fa-caret-up mr-1"></i>เพิ่มขึ้นจาก 42 คน</p>
+                </div>
+            </div>
+
+            <!-- Card 4: ศ. -->
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 hover:shadow-md flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-800 shrink-0">
+                    <i class="fa-solid fa-user-graduate text-xl"></i>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-500 font-medium mb-1">ศาสตราจารย์ (ศ.)</p>
+                    <h3 class="text-2xl font-bold text-slate-800" id="kpi-prof">3 <span class="text-sm font-normal text-slate-500">คน</span></h3>
+                </div>
+            </div>
+
+            <!-- Card 5: ผศ.พิเศษ -->
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 hover:shadow-md flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 shrink-0">
+                    <i class="fa-solid fa-award text-xl"></i>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-500 font-medium mb-1">ผศ.พิเศษ</p>
+                    <h3 class="text-2xl font-bold text-slate-800" id="kpi-special">1 <span class="text-sm font-normal text-slate-500">คน</span></h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            
+            <!-- Section 2: Chart -->
+            <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+                <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center">
+                    <i class="fa-solid fa-chart-column mr-2 text-rmutt-navy"></i> แนวโน้มจำนวนผู้ดำรงตำแหน่ง (Bar Chart)
+                </h2>
+                <div class="w-full" style="height: 400px;">
+                    <canvas id="academicChart"></canvas>
+                </div>
+            </section>
+            
+            <!-- Section 2.5: Radar Chart -->
+            <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
+                <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center">
+                    <i class="fa-solid fa-spider mr-2 text-rmutt-navy"></i> สัดส่วนตำแหน่งทางวิชาการแต่ละปี (Radar Chart)
+                </h2>
+                <div class="w-full flex justify-center items-center" style="height: 400px;">
+                    <canvas id="radarChart"></canvas>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- Section 3: Data Table -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden mb-8">
+            <div class="px-6 py-4 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
+                <h2 class="text-lg font-bold text-slate-800">
+                    <i class="fa-solid fa-table-list mr-2 text-rmutt-navy"></i> ตารางสรุปจำนวนผู้ดำรงตำแหน่ง
+                </h2>
+                <button class="text-sm bg-white border border-slate-300 text-slate-600 px-3 py-1.5 rounded-lg hover:bg-slate-50">
+                    <i class="fa-solid fa-download mr-1"></i> ส่งออกข้อมูล
+                </button>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-rmutt-navy text-white text-sm">
+                            <th class="px-6 py-4 font-medium text-center">ปีงบประมาณ</th>
+                            <th class="px-6 py-4 font-medium text-center">อาจารย์</th>
+                            <th class="px-6 py-4 font-medium text-center">ผศ.</th>
+                            <th class="px-6 py-4 font-medium text-center">ผศ.พิเศษ</th>
+                            <th class="px-6 py-4 font-medium text-center">รศ.</th>
+                            <th class="px-6 py-4 font-medium text-center">ศ.</th>
+                            <th class="px-6 py-4 font-bold text-center bg-rmutt-red">รวมทั้งหมด</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body" class="text-sm divide-y divide-slate-100">
+                        <!-- Table rows will be populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-indigo-50 border-l-4 border-indigo-600 p-4 rounded-r-lg shadow-sm flex items-start sm:items-center gap-3">
+            <i class="fa-solid fa-lightbulb text-indigo-600 mt-1 sm:mt-0 text-lg"></i>
+            <p class="text-indigo-900 text-sm md:text-base leading-relaxed">
+                <strong>ข้อสังเกต:</strong> คณะวิศวกรรมศาสตร์มีแนวโน้มการเพิ่มขึ้นของบุคลากรที่ดำรงตำแหน่งทางวิชาการระดับสูงอย่างต่อเนื่อง สะท้อนถึงศักยภาพด้านการจัดการศึกษา การวิจัย และการพัฒนาทรัพยากรบุคคลของคณะ
+            </p>
+        </footer>
+
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        /**
+         * ข้อมูลจำลอง (Mock Data) สำหรับรอเชื่อมต่อกับ Google Sheets
+         * 
+         * หากต้องการนำไปต่อกับ Google Sheets ให้สร้างแท็บ/Sheet และคอลัมน์ดังนี้:
+         * แถวที่ 1 (หัวคอลัมน์):
+         * A1: "ปีงบประมาณ"
+         * B1: "อาจารย์"
+         * C1: "ผศ."
+         * D1: "ผศ.พิเศษ"
+         * E1: "รศ."
+         * F1: "ศ."
+         */
+        
+        const rawDataFromGoogleSheets = [
+            { year: '2566', achan: 47, asst_prof: 111, special_asst: 0, assoc_prof: 42, prof: 1 },
+            { year: '2567', achan: 51, asst_prof: 107, special_asst: 0, assoc_prof: 47, prof: 1 },
+            { year: '2568', achan: 39, asst_prof: 112, special_asst: 0, assoc_prof: 53, prof: 2 },
+            { year: '2569', achan: 39, asst_prof: 120, special_asst: 1, assoc_prof: 51, prof: 3 },
+            { year: '2570', achan: 38, asst_prof: 115, special_asst: 1, assoc_prof: 52, prof: 3 }
+        ];
+
+        // 1. ฟังก์ชันสร้างตาราง
+        function renderTable(data) {
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
+            
+            data.forEach((row, index) => {
+                const total = row.achan + row.asst_prof + row.special_asst + row.assoc_prof + row.prof;
+                const isEven = index % 2 === 0;
+                
+                const tr = document.createElement('tr');
+                tr.className = `hover:bg-blue-50 transition-colors ${isEven ? 'bg-white' : 'bg-slate-50'}`;
+                
+                tr.innerHTML = `
+                    <td class="px-6 py-4 font-semibold text-center text-slate-800">${row.year}</td>
+                    <td class="px-6 py-4 text-center text-slate-600">${row.achan}</td>
+                    <td class="px-6 py-4 text-center text-slate-600">${row.asst_prof}</td>
+                    <td class="px-6 py-4 text-center text-slate-600">${row.special_asst === 0 ? '-' : row.special_asst}</td>
+                    <td class="px-6 py-4 text-center text-slate-600">${row.assoc_prof}</td>
+                    <td class="px-6 py-4 text-center text-slate-600">${row.prof}</td>
+                    <td class="px-6 py-4 text-center font-bold text-rmutt-navy bg-slate-100/50">${total}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // 2. ฟังก์ชันสร้างกราฟ Stacked Bar Chart แบบล้ำๆ
+        function renderChart(data) {
+            const ctx = document.getElementById('academicChart').getContext('2d');
+            
+            const labels = data.map(d => d.year);
+            const achanData = data.map(d => d.achan);
+            const asstProfData = data.map(d => d.asst_prof);
+            const specialAsstData = data.map(d => d.special_asst);
+            const assocProfData = data.map(d => d.assoc_prof);
+            const profData = data.map(d => d.prof);
+
+            // Chart.js Configuration
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'อาจารย์',
+                            data: achanData,
+                            backgroundColor: '#3B82F6', // Blue
+                            borderRadius: 4,
+                            barPercentage: 0.6
+                        },
+                        {
+                            label: 'ผศ.',
+                            data: asstProfData,
+                            backgroundColor: '#F97316', // Orange
+                            borderRadius: 4,
+                            barPercentage: 0.6
+                        },
+                        {
+                            label: 'ผศ.พิเศษ',
+                            data: specialAsstData,
+                            backgroundColor: '#10B981', // Emerald
+                            borderRadius: 4,
+                            barPercentage: 0.6
+                        },
+                        {
+                            label: 'รศ.',
+                            data: assocProfData,
+                            backgroundColor: '#EAB308', // Yellow/Gold
+                            borderRadius: 4,
+                            barPercentage: 0.6
+                        },
+                        {
+                            label: 'ศ.',
+                            data: profData,
+                            backgroundColor: '#312E81', // Indigo/Navy
+                            borderRadius: 4,
+                            barPercentage: 0.6
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                font: { family: "'Prompt', sans-serif", size: 13 },
+                                usePointStyle: true,
+                                boxWidth: 8
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                            titleFont: { family: "'Prompt', sans-serif", size: 14 },
+                            bodyFont: { family: "'Prompt', sans-serif", size: 13 },
+                            padding: 12,
+                            cornerRadius: 8,
+                            itemSort: function(a, b) {
+                                return b.datasetIndex - a.datasetIndex;
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            stacked: true,
+                            grid: { display: false },
+                            ticks: { font: { family: "'Prompt', sans-serif" } }
+                        },
+                        y: {
+                            stacked: true,
+                            border: { display: false },
+                            grid: { color: '#f1f5f9' },
+                            ticks: { font: { family: "'Prompt', sans-serif" } }
+                        }
+                    }
+                }
+            });
+        }
+
+        // 3. ฟังก์ชันสร้างกราฟ Radar (Spider Chart)
+        function renderRadarChart(data) {
+            const ctx = document.getElementById('radarChart').getContext('2d');
+            
+            const labels = ['อาจารย์', 'ผศ.', 'ผศ.พิเศษ', 'รศ.', 'ศ.'];
+            
+            // สีสำหรับแต่ละปีงบประมาณ
+            const colors = [
+                { border: 'rgba(59, 130, 246, 1)', bg: 'rgba(59, 130, 246, 0.1)' },   // 2566 - Blue
+                { border: 'rgba(16, 185, 129, 1)', bg: 'rgba(16, 185, 129, 0.1)' },   // 2567 - Emerald
+                { border: 'rgba(245, 158, 11, 1)', bg: 'rgba(245, 158, 11, 0.1)' },   // 2568 - Amber
+                { border: 'rgba(239, 68, 68, 1)', bg: 'rgba(239, 68, 68, 0.1)' },     // 2569 - Red
+                { border: 'rgba(139, 92, 246, 1)', bg: 'rgba(139, 92, 246, 0.15)' }   // 2570 - Violet (เน้นสีเข้มขึ้นนิดนึง)
+            ];
+
+            const datasets = data.map((d, index) => {
+                return {
+                    label: `ปี ${d.year}`,
+                    data: [d.achan, d.asst_prof, d.special_asst, d.assoc_prof, d.prof],
+                    borderColor: colors[index % colors.length].border,
+                    backgroundColor: colors[index % colors.length].bg,
+                    pointBackgroundColor: colors[index % colors.length].border,
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: colors[index % colors.length].border,
+                    borderWidth: 2,
+                    fill: true
+                };
+            });
+
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: labels,
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: { family: "'Prompt', sans-serif", size: 12 },
+                                usePointStyle: true,
+                                padding: 15
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                            titleFont: { family: "'Prompt', sans-serif", size: 14 },
+                            bodyFont: { family: "'Prompt', sans-serif", size: 13 },
+                            padding: 12,
+                            cornerRadius: 8,
+                        }
+                    },
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(0,0,0,0.05)' },
+                            grid: { color: 'rgba(0,0,0,0.05)' },
+                            pointLabels: {
+                                font: { family: "'Prompt', sans-serif", size: 13 },
+                                color: '#475569'
+                            },
+                            ticks: {
+                                backdropColor: 'transparent',
+                                font: { family: "'Prompt', sans-serif", size: 10 },
+                                color: '#94a3b8'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize Dashboard
+        window.onload = function() {
+            renderTable(rawDataFromGoogleSheets);
+            renderChart(rawDataFromGoogleSheets);
+            renderRadarChart(rawDataFromGoogleSheets); // แสดง Radar Chart
+            
+            // หมายเหตุ: โค้ดส่วนนี้คือจุดที่จะเพิ่มฟังก์ชัน fetch('YOUR_GOOGLE_APP_SCRIPT_URL') 
+            // เพื่อดึงข้อมูล JSON มาแทนที่ rawDataFromGoogleSheets ในอนาคต
+        };
+    </script>
+</body>
+</html>

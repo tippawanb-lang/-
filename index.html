@@ -127,25 +127,25 @@
         </section>
 
         <!-- Main Content Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
             
             <!-- Section 2: Chart -->
-            <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-                <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center">
+            <section class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                <h2 class="text-base font-bold text-slate-800 mb-4 flex items-center">
                     <i class="fa-solid fa-chart-column mr-2 text-rmutt-navy"></i> แนวโน้มจำนวนผู้ดำรงตำแหน่ง (Bar Chart)
                 </h2>
-                <div class="w-full" style="height: 400px;">
+                <div class="w-full h-[350px]">
                     <canvas id="academicChart"></canvas>
                 </div>
             </section>
             
-            <!-- Section 2.5: Radar Chart -->
-            <section class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-                <h2 class="text-lg font-bold text-slate-800 mb-6 flex items-center">
-                    <i class="fa-solid fa-spider mr-2 text-rmutt-navy"></i> สัดส่วนตำแหน่งทางวิชาการแต่ละปี (Radar Chart)
+            <!-- Section 2.5: Line Chart -->
+            <section class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                <h2 class="text-base font-bold text-slate-800 mb-4 flex items-center">
+                    <i class="fa-solid fa-chart-line mr-2 text-rmutt-navy"></i> แนวโน้มการเปลี่ยนแปลงรายปี (Line Chart)
                 </h2>
-                <div class="w-full flex justify-center items-center" style="height: 400px;">
-                    <canvas id="radarChart"></canvas>
+                <div class="w-full h-[350px]">
+                    <canvas id="lineChart"></canvas>
                 </div>
             </section>
 
@@ -273,21 +273,21 @@
                         {
                             label: 'ผศ.พิเศษ',
                             data: specialAsstData,
-                            backgroundColor: '#10B981', // Emerald
+                            backgroundColor: '#22C55E', // Green
                             borderRadius: 4,
                             barPercentage: 0.6
                         },
                         {
                             label: 'รศ.',
                             data: assocProfData,
-                            backgroundColor: '#EAB308', // Yellow/Gold
+                            backgroundColor: '#EAB308', // Yellow
                             borderRadius: 4,
                             barPercentage: 0.6
                         },
                         {
                             label: 'ศ.',
                             data: profData,
-                            backgroundColor: '#312E81', // Indigo/Navy
+                            backgroundColor: '#6366F1', // Indigo
                             borderRadius: 4,
                             barPercentage: 0.6
                         }
@@ -304,17 +304,17 @@
                         legend: {
                             position: 'bottom',
                             labels: {
-                                padding: 20,
-                                font: { family: "'Prompt', sans-serif", size: 13 },
+                                padding: 15,
+                                font: { family: "'Prompt', sans-serif", size: 12 },
                                 usePointStyle: true,
                                 boxWidth: 8
                             }
                         },
                         tooltip: {
                             backgroundColor: 'rgba(15, 23, 42, 0.9)',
-                            titleFont: { family: "'Prompt', sans-serif", size: 14 },
-                            bodyFont: { family: "'Prompt', sans-serif", size: 13 },
-                            padding: 12,
+                            titleFont: { family: "'Prompt', sans-serif", size: 13 },
+                            bodyFont: { family: "'Prompt', sans-serif", size: 12 },
+                            padding: 10,
                             cornerRadius: 8,
                             itemSort: function(a, b) {
                                 return b.datasetIndex - a.datasetIndex;
@@ -338,75 +338,63 @@
             });
         }
 
-        // 3. ฟังก์ชันสร้างกราฟ Radar (Spider Chart)
-        function renderRadarChart(data) {
-            const ctx = document.getElementById('radarChart').getContext('2d');
+        // 3. ฟังก์ชันสร้างกราฟ Line Chart เพื่อดูแนวโน้ม
+        function renderLineChart(data) {
+            const ctx = document.getElementById('lineChart').getContext('2d');
             
-            const labels = ['อาจารย์', 'ผศ.', 'ผศ.พิเศษ', 'รศ.', 'ศ.'];
-            
-            // สีสำหรับแต่ละปีงบประมาณ
-            const colors = [
-                { border: 'rgba(59, 130, 246, 1)', bg: 'rgba(59, 130, 246, 0.1)' },   // 2566 - Blue
-                { border: 'rgba(16, 185, 129, 1)', bg: 'rgba(16, 185, 129, 0.1)' },   // 2567 - Emerald
-                { border: 'rgba(245, 158, 11, 1)', bg: 'rgba(245, 158, 11, 0.1)' },   // 2568 - Amber
-                { border: 'rgba(239, 68, 68, 1)', bg: 'rgba(239, 68, 68, 0.1)' },     // 2569 - Red
-                { border: 'rgba(139, 92, 246, 1)', bg: 'rgba(139, 92, 246, 0.15)' }   // 2570 - Violet (เน้นสีเข้มขึ้นนิดนึง)
-            ];
-
-            const datasets = data.map((d, index) => {
-                return {
-                    label: `ปี ${d.year}`,
-                    data: [d.achan, d.asst_prof, d.special_asst, d.assoc_prof, d.prof],
-                    borderColor: colors[index % colors.length].border,
-                    backgroundColor: colors[index % colors.length].bg,
-                    pointBackgroundColor: colors[index % colors.length].border,
-                    pointBorderColor: '#fff',
-                    pointHoverBackgroundColor: '#fff',
-                    pointHoverBorderColor: colors[index % colors.length].border,
-                    borderWidth: 2,
-                    fill: true
-                };
-            });
+            const labels = data.map(d => d.year);
+            const achanData = data.map(d => d.achan);
+            const asstProfData = data.map(d => d.asst_prof);
+            const specialAsstData = data.map(d => d.special_asst);
+            const assocProfData = data.map(d => d.assoc_prof);
+            const profData = data.map(d => d.prof);
 
             new Chart(ctx, {
-                type: 'radar',
+                type: 'line',
                 data: {
                     labels: labels,
-                    datasets: datasets
+                    datasets: [
+                        { label: 'อาจารย์', data: achanData, borderColor: '#3B82F6', backgroundColor: '#3B82F6', tension: 0.3, pointRadius: 4, pointHoverRadius: 6 },
+                        { label: 'ผศ.', data: asstProfData, borderColor: '#F97316', backgroundColor: '#F97316', tension: 0.3, pointRadius: 4, pointHoverRadius: 6 },
+                        { label: 'ผศ.พิเศษ', data: specialAsstData, borderColor: '#22C55E', backgroundColor: '#22C55E', tension: 0.3, pointRadius: 4, pointHoverRadius: 6 },
+                        { label: 'รศ.', data: assocProfData, borderColor: '#EAB308', backgroundColor: '#EAB308', tension: 0.3, pointRadius: 4, pointHoverRadius: 6 },
+                        { label: 'ศ.', data: profData, borderColor: '#6366F1', backgroundColor: '#6366F1', tension: 0.3, pointRadius: 4, pointHoverRadius: 6 }
+                    ]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
                     plugins: {
                         legend: {
                             position: 'bottom',
                             labels: {
+                                padding: 15,
                                 font: { family: "'Prompt', sans-serif", size: 12 },
                                 usePointStyle: true,
-                                padding: 15
+                                boxWidth: 8
                             }
                         },
                         tooltip: {
                             backgroundColor: 'rgba(15, 23, 42, 0.9)',
-                            titleFont: { family: "'Prompt', sans-serif", size: 14 },
-                            bodyFont: { family: "'Prompt', sans-serif", size: 13 },
-                            padding: 12,
+                            titleFont: { family: "'Prompt', sans-serif", size: 13 },
+                            bodyFont: { family: "'Prompt', sans-serif", size: 12 },
+                            padding: 10,
                             cornerRadius: 8,
                         }
                     },
                     scales: {
-                        r: {
-                            angleLines: { color: 'rgba(0,0,0,0.05)' },
-                            grid: { color: 'rgba(0,0,0,0.05)' },
-                            pointLabels: {
-                                font: { family: "'Prompt', sans-serif", size: 13 },
-                                color: '#475569'
-                            },
-                            ticks: {
-                                backdropColor: 'transparent',
-                                font: { family: "'Prompt', sans-serif", size: 10 },
-                                color: '#94a3b8'
-                            }
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { family: "'Prompt', sans-serif" } }
+                        },
+                        y: {
+                            border: { display: false },
+                            grid: { color: '#f1f5f9' },
+                            ticks: { font: { family: "'Prompt', sans-serif" } }
                         }
                     }
                 }
@@ -417,7 +405,7 @@
         window.onload = function() {
             renderTable(rawDataFromGoogleSheets);
             renderChart(rawDataFromGoogleSheets);
-            renderRadarChart(rawDataFromGoogleSheets); // แสดง Radar Chart
+            renderLineChart(rawDataFromGoogleSheets); // แสดง Line Chart
             
             // หมายเหตุ: โค้ดส่วนนี้คือจุดที่จะเพิ่มฟังก์ชัน fetch('YOUR_GOOGLE_APP_SCRIPT_URL') 
             // เพื่อดึงข้อมูล JSON มาแทนที่ rawDataFromGoogleSheets ในอนาคต

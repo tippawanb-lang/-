@@ -16,7 +16,7 @@
             font-family: 'Prompt', sans-serif;
             background-color: #f3f4f6;
         }
-        /* Custom Scrollbar สำหรับตาราง */
+        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 10px; }
@@ -31,34 +31,66 @@
             animation: spin 1s linear infinite;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* =========================================================
+           CSS MEDIA QUERIES (จัดการเลย์เอาต์ตามขนาดและความสูงหน้าจอ) 
+           ========================================================= */
+        
+        /* [1] ค่าเริ่มต้น (สำหรับหน้าจอ Desktop ทั่วไป และจอใหญ่) */
+        .dashboard-header-bg { padding-top: 2rem; padding-bottom: 6rem; }
+        .cards-overlap { margin-top: -3.5rem; }
+        .card-padding { padding: 1.5rem; }
+        .val-text { font-size: 1.875rem; line-height: 2.25rem; }
+        .section-mt { margin-top: 2rem; }
+        .chart-height { height: 300px; min-height: 250px; }
+        .donut-height { height: 260px; min-height: 220px; }
+        .table-compact th, .table-compact td { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+
+        /* [2] สำหรับหน้าจอแล็ปท็อป/จอเล็ก ที่ความสูงจำกัด (< 850px) 
+           ทำให้ทุกอย่างกระชับขึ้น (Compact) เพื่อไม่ต้อง Scroll */
+        @media screen and (max-height: 850px) {
+            .dashboard-header-bg { padding-top: 1.5rem !important; padding-bottom: 4rem !important; }
+            .cards-overlap { margin-top: -2rem !important; }
+            .card-padding { padding: 1rem !important; }
+            .val-text { font-size: 1.5rem !important; line-height: 1.75rem !important; }
+            .section-mt { margin-top: 1rem !important; }
+            
+            /* ใช้ vh (Viewport Height) เพื่อให้กราฟย่อตามความสูงจอ */
+            .chart-height { height: 26vh !important; min-height: 180px !important; }
+            .donut-height { height: 24vh !important; min-height: 160px !important; }
+            
+            .table-compact th, .table-compact td { 
+                padding-top: 0.4rem !important; 
+                padding-bottom: 0.4rem !important; 
+                font-size: 0.8rem !important; 
+            }
+            .text-lg-responsive { font-size: 1rem !important; margin-bottom: 0.5rem !important;}
+        }
+
+        /* [3] สำหรับหน้าจอ Mobile/Tablet (ความกว้างน้อย) */
+        @media screen and (max-width: 768px) {
+            .cards-overlap { margin-top: 1rem !important; }
+            .dashboard-header-bg { padding-bottom: 1.5rem !important; }
+            .chart-height, .donut-height { height: 250px !important; }
+        }
     </style>
 </head>
 <body class="flex h-screen overflow-hidden text-gray-800">
 
     <!-- Sidebar (แถบเมนูด้านซ้าย) -->
-    <aside class="w-64 bg-blue-900 text-white flex-shrink-0 hidden md:flex flex-col shadow-2xl z-20">
-        <div class="p-6 flex items-center gap-3 border-b border-blue-800">
+    <aside class="w-20 xl:w-64 bg-blue-900 text-white flex-shrink-0 hidden md:flex flex-col shadow-2xl z-20 transition-all duration-300">
+        <div class="p-6 flex items-center justify-center xl:justify-start gap-3 border-b border-blue-800">
             <div class="bg-white text-blue-900 p-2 rounded-lg font-bold">EN</div>
-            <h2 class="text-xl font-bold tracking-wider">RMUTT</h2>
+            <h2 class="text-xl font-bold tracking-wider hidden xl:block">RMUTT</h2>
         </div>
         <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
-            <a href="#" class="flex items-center gap-3 bg-blue-800 text-white p-3 rounded-xl shadow-inner">
-                <i class="fas fa-chart-pie w-5"></i> <span>Dashboard</span>
+            <a href="#" class="flex items-center justify-center xl:justify-start gap-3 bg-blue-800 text-white p-3 rounded-xl shadow-inner">
+                <i class="fas fa-chart-pie w-5 text-center"></i> <span class="hidden xl:block">Dashboard</span>
             </a>
-            <a href="#" class="flex items-center gap-3 hover:bg-blue-800/50 text-blue-200 hover:text-white p-3 rounded-xl transition">
-                <i class="fas fa-users w-5"></i> <span>ข้อมูลบุคลากร</span>
-            </a>
-            <a href="#" class="flex items-center gap-3 hover:bg-blue-800/50 text-blue-200 hover:text-white p-3 rounded-xl transition">
-                <i class="fas fa-file-alt w-5"></i> <span>รายงาน (Reports)</span>
-            </a>
-            <a href="#" class="flex items-center gap-3 hover:bg-blue-800/50 text-blue-200 hover:text-white p-3 rounded-xl transition">
-                <i class="fas fa-cog w-5"></i> <span>การตั้งค่า</span>
+            <a href="#" class="flex items-center justify-center xl:justify-start gap-3 hover:bg-blue-800/50 text-blue-200 hover:text-white p-3 rounded-xl transition">
+                <i class="fas fa-users w-5 text-center"></i> <span class="hidden xl:block">ข้อมูลบุคลากร</span>
             </a>
         </nav>
-        <div class="p-4 border-t border-blue-800 m-4 bg-blue-800/30 rounded-xl text-center">
-            <img src="https://ui-avatars.com/api/?name=Admin&background=eff6ff&color=1e3a8a" class="w-12 h-12 rounded-full mx-auto mb-2 shadow-lg" alt="Profile">
-            <p class="text-sm font-semibold">Faculty of Engineering</p>
-        </div>
     </aside>
 
     <!-- Main Content -->
@@ -70,117 +102,117 @@
             <p class="text-gray-500 font-semibold">กำลังเชื่อมต่อข้อมูลจาก Google Sheet...</p>
         </div>
 
-        <div id="dashboard-content" class="hidden pb-10">
+        <div id="dashboard-content" class="hidden pb-6">
             <!-- Header Background -->
-            <div class="bg-gradient-to-r from-blue-900 to-red-800 pt-8 pb-24 px-8 flex flex-col md:flex-row justify-between items-start md:items-center">
+            <div class="bg-gradient-to-r from-blue-900 to-red-800 px-6 xl:px-8 flex flex-col md:flex-row justify-between items-start md:items-center dashboard-header-bg">
                 <div class="mb-4 md:mb-0">
-                    <h1 class="text-3xl font-bold text-white mb-1 shadow-sm">สถิติตำแหน่งทางวิชาการ</h1>
-                    <p class="text-blue-100 opacity-90">คณะวิศวกรรมศาสตร์ มหาวิทยาลัยเทคโนโลยีราชมงคลธัญบุรี</p>
+                    <h1 class="text-2xl xl:text-3xl font-bold text-white mb-1 shadow-sm">สถิติตำแหน่งทางวิชาการ</h1>
+                    <p class="text-blue-100 opacity-90 text-sm xl:text-base">คณะวิศวกรรมศาสตร์ มหาวิทยาลัยเทคโนโลยีราชมงคลธัญบุรี</p>
                 </div>
                 <!-- Dropdown เลือกปี -->
-                <div class="bg-white/20 backdrop-blur-md p-2 rounded-xl border border-white/30 flex items-center gap-3">
-                    <span class="text-white font-medium pl-2"><i class="fas fa-calendar-alt"></i> ปีงบประมาณ:</span>
-                    <select id="yearSelect" class="bg-white text-gray-800 font-bold px-4 py-2 rounded-lg outline-none cursor-pointer shadow-sm">
-                        <!-- ตัวเลือกปีจะถูกใส่ที่นี่ผ่าน JS -->
+                <div class="bg-white/20 backdrop-blur-md p-2 rounded-xl border border-white/30 flex items-center gap-3 shadow-sm">
+                    <span class="text-white font-medium pl-2 text-sm xl:text-base"><i class="fas fa-calendar-alt"></i> ปีงบประมาณ:</span>
+                    <select id="yearSelect" class="bg-white text-gray-800 font-bold px-3 py-1.5 rounded-lg outline-none cursor-pointer shadow-sm text-sm xl:text-base">
+                        <!-- Options generated by JS -->
                     </select>
                 </div>
             </div>
 
-            <!-- Top Cards (5 การ์ด) -->
-            <div class="flex flex-wrap gap-4 px-8 -mt-14 relative z-10">
+            <!-- Top Cards (ใช้ Grid เพื่อความยืดหยุ่นในการจัดเรียง) -->
+            <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 xl:gap-4 px-6 xl:px-8 cards-overlap relative z-10">
                 <!-- Card 1: รวม -->
-                <div class="bg-white rounded-2xl shadow-xl p-6 flex-1 min-w-[200px] border-b-4 border-blue-500 transform hover:-translate-y-1 transition duration-300">
-                    <div class="flex justify-between items-center mb-2">
-                        <h3 class="text-gray-500 font-semibold text-sm">บุคลากรรวม</h3>
-                        <div class="bg-blue-100 text-blue-600 p-2 rounded-lg"><i class="fas fa-users"></i></div>
+                <div class="bg-white rounded-2xl shadow-lg card-padding border-b-4 border-blue-500 flex flex-col justify-between">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-gray-500 font-semibold text-xs xl:text-sm">บุคลากรรวม</h3>
+                        <div class="bg-blue-100 text-blue-600 p-1.5 xl:p-2 rounded-lg"><i class="fas fa-users text-sm xl:text-base"></i></div>
                     </div>
-                    <div class="text-3xl font-bold text-gray-800" id="val-total">-</div>
-                    <div class="mt-2" id="diff-total"></div>
+                    <div class="font-bold text-gray-800 val-text" id="val-total">-</div>
+                    <div class="mt-1" id="diff-total"></div>
                 </div>
                 
                 <!-- Card 2: ผศ.พิเศษ -->
-                <div class="bg-white rounded-2xl shadow-xl p-6 flex-1 min-w-[200px] border-b-4 border-green-500 transform hover:-translate-y-1 transition duration-300">
-                    <div class="flex justify-between items-center mb-2">
-                        <h3 class="text-gray-500 font-semibold text-sm">ผศ.พิเศษ</h3>
-                        <div class="bg-green-100 text-green-600 p-2 rounded-lg"><i class="fas fa-star"></i></div>
+                <div class="bg-white rounded-2xl shadow-lg card-padding border-b-4 border-green-500 flex flex-col justify-between">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-gray-500 font-semibold text-xs xl:text-sm">ผศ.พิเศษ</h3>
+                        <div class="bg-green-100 text-green-600 p-1.5 xl:p-2 rounded-lg"><i class="fas fa-star text-sm xl:text-base"></i></div>
                     </div>
-                    <div class="text-3xl font-bold text-gray-800" id="val-spec-asst">-</div>
-                    <div class="mt-2" id="diff-spec-asst"></div>
+                    <div class="font-bold text-gray-800 val-text" id="val-spec-asst">-</div>
+                    <div class="mt-1" id="diff-spec-asst"></div>
                 </div>
 
                 <!-- Card 3: ผศ. -->
-                <div class="bg-white rounded-2xl shadow-xl p-6 flex-1 min-w-[200px] border-b-4 border-orange-500 transform hover:-translate-y-1 transition duration-300">
-                    <div class="flex justify-between items-center mb-2">
-                        <h3 class="text-gray-500 font-semibold text-sm">ผู้ช่วยศาสตราจารย์ (ผศ.)</h3>
-                        <div class="bg-orange-100 text-orange-600 p-2 rounded-lg"><i class="fas fa-user-graduate"></i></div>
+                <div class="bg-white rounded-2xl shadow-lg card-padding border-b-4 border-orange-500 flex flex-col justify-between">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-gray-500 font-semibold text-xs xl:text-sm">ผู้ช่วยศาสตราจารย์ (ผศ.)</h3>
+                        <div class="bg-orange-100 text-orange-600 p-1.5 xl:p-2 rounded-lg"><i class="fas fa-user-graduate text-sm xl:text-base"></i></div>
                     </div>
-                    <div class="text-3xl font-bold text-gray-800" id="val-asst">-</div>
-                    <div class="mt-2" id="diff-asst"></div>
+                    <div class="font-bold text-gray-800 val-text" id="val-asst">-</div>
+                    <div class="mt-1" id="diff-asst"></div>
                 </div>
 
                 <!-- Card 4: รศ. -->
-                <div class="bg-white rounded-2xl shadow-xl p-6 flex-1 min-w-[200px] border-b-4 border-yellow-500 transform hover:-translate-y-1 transition duration-300">
-                    <div class="flex justify-between items-center mb-2">
-                        <h3 class="text-gray-500 font-semibold text-sm">รองศาสตราจารย์ (รศ.)</h3>
-                        <div class="bg-yellow-100 text-yellow-600 p-2 rounded-lg"><i class="fas fa-award"></i></div>
+                <div class="bg-white rounded-2xl shadow-lg card-padding border-b-4 border-yellow-500 flex flex-col justify-between">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-gray-500 font-semibold text-xs xl:text-sm">รองศาสตราจารย์ (รศ.)</h3>
+                        <div class="bg-yellow-100 text-yellow-600 p-1.5 xl:p-2 rounded-lg"><i class="fas fa-award text-sm xl:text-base"></i></div>
                     </div>
-                    <div class="text-3xl font-bold text-gray-800" id="val-assoc">-</div>
-                    <div class="mt-2" id="diff-assoc"></div>
+                    <div class="font-bold text-gray-800 val-text" id="val-assoc">-</div>
+                    <div class="mt-1" id="diff-assoc"></div>
                 </div>
 
-                <!-- Card 5: ศ. -->
-                <div class="bg-white rounded-2xl shadow-xl p-6 flex-1 min-w-[200px] border-b-4 border-purple-500 transform hover:-translate-y-1 transition duration-300">
-                    <div class="flex justify-between items-center mb-2">
-                        <h3 class="text-gray-500 font-semibold text-sm">ศาสตราจารย์ (ศ.)</h3>
-                        <div class="bg-purple-100 text-purple-600 p-2 rounded-lg"><i class="fas fa-medal"></i></div>
+                <!-- Card 5: ศ. (ขยายเต็มในหน้าจอ Tablet/LG) -->
+                <div class="bg-white rounded-2xl shadow-lg card-padding border-b-4 border-purple-500 flex flex-col justify-between col-span-2 lg:col-span-1 xl:col-span-1">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-gray-500 font-semibold text-xs xl:text-sm">ศาสตราจารย์ (ศ.)</h3>
+                        <div class="bg-purple-100 text-purple-600 p-1.5 xl:p-2 rounded-lg"><i class="fas fa-medal text-sm xl:text-base"></i></div>
                     </div>
-                    <div class="text-3xl font-bold text-gray-800" id="val-prof">-</div>
-                    <div class="mt-2" id="diff-prof"></div>
+                    <div class="font-bold text-gray-800 val-text" id="val-prof">-</div>
+                    <div class="mt-1" id="diff-prof"></div>
                 </div>
             </div>
 
-            <!-- Charts Section -->
-            <div class="flex flex-col xl:flex-row gap-6 px-8 mt-8">
-                <div class="bg-white rounded-2xl shadow-lg p-6 flex-1 border border-gray-100">
-                    <h3 class="text-gray-800 font-bold mb-4 text-lg">สถิติบุคลากรแต่ละปี <span class="text-sm font-normal text-gray-500">(Stacked Bar)</span></h3>
-                    <div class="relative h-[320px]">
+            <!-- Charts Section (Stacked Bar & Line Chart) -->
+            <div class="flex flex-col xl:flex-row gap-3 xl:gap-6 px-6 xl:px-8 section-mt">
+                <div class="bg-white rounded-2xl shadow-md p-4 xl:p-6 flex-1 border border-gray-100">
+                    <h3 class="text-gray-800 font-bold mb-2 text-lg text-lg-responsive">สถิติบุคลากรแต่ละปี <span class="text-xs font-normal text-gray-500">(Stacked Bar)</span></h3>
+                    <div class="relative w-full chart-height">
                         <canvas id="stackedBarChart"></canvas>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl shadow-lg p-6 flex-1 border border-gray-100">
-                    <h3 class="text-gray-800 font-bold mb-4 text-lg">แนวโน้มตำแหน่งทางวิชาการ <span class="text-sm font-normal text-gray-500">(Line Chart)</span></h3>
-                    <div class="relative h-[320px]">
+                <div class="bg-white rounded-2xl shadow-md p-4 xl:p-6 flex-1 border border-gray-100">
+                    <h3 class="text-gray-800 font-bold mb-2 text-lg text-lg-responsive">แนวโน้มตำแหน่งทางวิชาการ <span class="text-xs font-normal text-gray-500">(Line Chart)</span></h3>
+                    <div class="relative w-full chart-height">
                         <canvas id="lineChart"></canvas>
                     </div>
                 </div>
             </div>
 
-            <!-- Bottom Widgets -->
-            <div class="flex flex-col xl:flex-row gap-6 px-8 mt-6">
+            <!-- Bottom Widgets (Donut Chart & Data Table) -->
+            <div class="flex flex-col xl:flex-row gap-3 xl:gap-6 px-6 xl:px-8 section-mt mb-4">
                 <!-- Donut Chart -->
-                <div class="bg-white rounded-2xl shadow-lg p-6 w-full xl:w-1/3 border border-gray-100">
-                    <h3 class="text-gray-800 font-bold mb-4 text-lg">สัดส่วนบุคลากร ปี <span id="donut-year-label" class="text-blue-600"></span></h3>
-                    <div class="relative h-[280px]">
+                <div class="bg-white rounded-2xl shadow-md p-4 xl:p-6 w-full xl:w-1/3 border border-gray-100">
+                    <h3 class="text-gray-800 font-bold mb-2 text-lg text-lg-responsive">สัดส่วนบุคลากร ปี <span id="donut-year-label" class="text-blue-600"></span></h3>
+                    <div class="relative w-full donut-height flex items-center justify-center">
                         <canvas id="donutChart"></canvas>
                     </div>
                 </div>
                 <!-- Data Table -->
-                <div class="bg-white rounded-2xl shadow-lg p-6 w-full xl:w-2/3 border border-gray-100 overflow-x-auto">
-                    <h3 class="text-gray-800 font-bold mb-4 text-lg">ข้อมูลจำนวนบุคลากร (คน)</h3>
-                    <table class="w-full text-left border-collapse min-w-[600px]">
+                <div class="bg-white rounded-2xl shadow-md p-4 xl:p-6 w-full xl:w-2/3 border border-gray-100 overflow-x-auto">
+                    <h3 class="text-gray-800 font-bold mb-2 text-lg text-lg-responsive">ข้อมูลจำนวนบุคลากร (คน)</h3>
+                    <table class="w-full text-left border-collapse min-w-[500px] table-compact">
                         <thead>
                             <tr class="bg-gray-100 text-gray-600 text-sm">
-                                <th class="py-3 px-4 rounded-tl-lg font-semibold">ปีงบประมาณ</th>
-                                <th class="py-3 px-4 font-semibold">อาจารย์</th>
-                                <th class="py-3 px-4 font-semibold">ผศ.</th>
-                                <th class="py-3 px-4 font-semibold">ผศ.พิเศษ</th>
-                                <th class="py-3 px-4 font-semibold">รศ.</th>
-                                <th class="py-3 px-4 font-semibold">ศ.</th>
-                                <th class="py-3 px-4 rounded-tr-lg font-semibold bg-blue-50 text-blue-700">รวม</th>
+                                <th class="px-3 rounded-tl-lg font-semibold">ปีงบประมาณ</th>
+                                <th class="px-3 font-semibold">อาจารย์</th>
+                                <th class="px-3 font-semibold">ผศ.</th>
+                                <th class="px-3 font-semibold">ผศ.พิเศษ</th>
+                                <th class="px-3 font-semibold">รศ.</th>
+                                <th class="px-3 font-semibold">ศ.</th>
+                                <th class="px-3 rounded-tr-lg font-semibold bg-blue-50 text-blue-700">รวม</th>
                             </tr>
                         </thead>
                         <tbody id="table-body" class="text-sm">
-                            <!-- ข้อมูลจะถูกแทรกที่นี่ -->
+                            <!-- Data injected via JS -->
                         </tbody>
                     </table>
                 </div>
@@ -189,6 +221,7 @@
     </main>
 
     <script>
+        // API URL
         const API_URL = "https://script.google.com/macros/s/AKfycbwVTcnQ41XOtXPNTbDWW9xcKpAA4EzlvtWGH0tmw_JBlTi4K188lOE7vL2_CD7j2jA/exec";
         
         let globalData = [];
@@ -209,7 +242,6 @@
                 const response = await fetch(API_URL);
                 const rawData = await response.json();
                 
-                // กรองข้อมูล: เอาเฉพาะแถวที่มีข้อมูล "ปี" และแปลงเป็น Number
                 globalData = rawData
                     .filter(d => d.year && String(d.year).trim() !== '')
                     .map(d => ({
@@ -221,7 +253,7 @@
                         prof: Number(d.prof || 0),
                         total: Number(d.total || 0)
                     }))
-                    .sort((a, b) => a.year - b.year); // เรียงตามปีจากน้อยไปมากสำหรับกราฟ
+                    .sort((a, b) => a.year - b.year); 
 
                 document.getElementById('loader-screen').style.display = 'none';
                 document.getElementById('dashboard-content').classList.remove('hidden');
@@ -234,14 +266,9 @@
         }
 
         function initDashboard() {
-            if(globalData.length === 0) {
-                document.getElementById('dashboard-content').innerHTML = '<div class="p-10 text-center text-gray-500 text-xl font-bold">ไม่มีข้อมูลที่จะแสดงผล กรุณาเพิ่มข้อมูลใน Google Sheet</div>';
-                return;
-            }
+            if(globalData.length === 0) return;
 
             const selectEl = document.getElementById('yearSelect');
-            
-            // คัดลอกข้อมูลมาเรียงใหม่จาก ปีล่าสุด -> ปีเก่าสุด เพื่อใส่ใน Dropdown ให้เลือกง่าย
             const sortedYearsForDropdown = [...globalData].sort((a, b) => b.year - a.year);
             
             sortedYearsForDropdown.forEach(d => {
@@ -251,14 +278,15 @@
                 selectEl.appendChild(opt);
             });
 
-            // หาปีล่าสุด (สูงสุด) มาเป็นค่าเริ่มต้น
             const latestYear = sortedYearsForDropdown[0].year;
             selectEl.value = latestYear;
 
+            // กำหนด options ปรับแต่งกราฟเพื่อให้ responsive มากขึ้น
+            Chart.defaults.maintainAspectRatio = false;
+            Chart.defaults.responsive = true;
+
             drawMainCharts();
             drawTable();
-            
-            // แสดงข้อมูลของการ์ดโดยอิงจากปีล่าสุด
             updateDynamicData(latestYear);
 
             selectEl.addEventListener('change', (e) => {
@@ -267,20 +295,18 @@
         }
 
         function getDiffHTML(curr, prev) {
-            if (prev === null || prev === undefined) return `<span class="text-gray-400 text-sm font-medium">ไม่มีข้อมูลปีก่อนหน้า</span>`;
+            if (prev === null || prev === undefined) return `<span class="text-gray-400 text-xs xl:text-sm font-medium">ไม่มีข้อมูลปีก่อนหน้า</span>`;
             let diff = curr - prev;
-            if (diff > 0) return `<span class="text-green-500 text-sm font-bold"><i class="fas fa-arrow-up mr-1"></i> เพิ่มขึ้น ${diff} คน</span>`;
-            if (diff < 0) return `<span class="text-red-500 text-sm font-bold"><i class="fas fa-arrow-down mr-1"></i> ลดลง ${Math.abs(diff)} คน</span>`;
-            return `<span class="text-gray-400 text-sm font-bold">- เท่าเดิม</span>`;
+            if (diff > 0) return `<span class="text-green-500 text-xs xl:text-sm font-bold"><i class="fas fa-arrow-up mr-1"></i> เพิ่มขึ้น ${diff} คน</span>`;
+            if (diff < 0) return `<span class="text-red-500 text-xs xl:text-sm font-bold"><i class="fas fa-arrow-down mr-1"></i> ลดลง ${Math.abs(diff)} คน</span>`;
+            return `<span class="text-gray-400 text-xs xl:text-sm font-bold">- เท่าเดิม</span>`;
         }
 
         function updateDynamicData(selectedYear) {
-            // ค้นหา Index ของปีที่เลือกในข้อมูลที่เรียงแล้ว (น้อยไปมาก)
             const currIdx = globalData.findIndex(d => d.year == selectedYear);
             if(currIdx === -1) return;
 
             const curr = globalData[currIdx];
-            // ดึงข้อมูลปีก่อนหน้า (ถ้ามี)
             const prev = currIdx > 0 ? globalData[currIdx - 1] : null;
 
             document.getElementById('val-total').innerText = curr.total;
@@ -327,7 +353,6 @@
                     ]
                 },
                 options: {
-                    responsive: true, maintainAspectRatio: false,
                     plugins: { tooltip: { mode: 'index', intersect: false } },
                     scales: {
                         x: { stacked: true, grid: { display: false } },
@@ -350,7 +375,6 @@
                     ]
                 },
                 options: {
-                    responsive: true, maintainAspectRatio: false,
                     plugins: { tooltip: { mode: 'index', intersect: false } },
                     scales: {
                         x: { grid: { display: false } },
@@ -377,7 +401,6 @@
                     }]
                 },
                 options: {
-                    responsive: true, maintainAspectRatio: false,
                     cutout: '65%',
                     plugins: {
                         legend: { position: 'right' }
@@ -395,13 +418,13 @@
                 tr.dataset.year = d.year;
                 tr.className = 'border-b border-gray-100 hover:bg-gray-50 transition';
                 tr.innerHTML = `
-                    <td class="py-3 px-4 font-bold text-gray-700">${d.year}</td>
-                    <td class="py-3 px-4">${d.lecturer}</td>
-                    <td class="py-3 px-4">${d.asst_prof}</td>
-                    <td class="py-3 px-4">${d.spec_asst_prof || '-'}</td>
-                    <td class="py-3 px-4">${d.assoc_prof}</td>
-                    <td class="py-3 px-4">${d.prof}</td>
-                    <td class="py-3 px-4 font-bold text-blue-600 bg-blue-50/50">${d.total}</td>
+                    <td class="px-3 font-bold text-gray-700">${d.year}</td>
+                    <td class="px-3">${d.lecturer}</td>
+                    <td class="px-3">${d.asst_prof}</td>
+                    <td class="px-3">${d.spec_asst_prof || '-'}</td>
+                    <td class="px-3">${d.assoc_prof}</td>
+                    <td class="px-3">${d.prof}</td>
+                    <td class="px-3 font-bold text-blue-600 bg-blue-50/50">${d.total}</td>
                 `;
                 tbody.appendChild(tr);
             });

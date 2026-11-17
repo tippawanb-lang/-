@@ -48,104 +48,108 @@
     <!-- Top Accent Bar -->
     <div class="h-2 w-full bg-gradient-to-r from-rmutt-navy via-rmutt-red to-rmutt-gold"></div>
 
-    <!-- Main Container: Expanded width and zoomed out -->
-    <div class="w-full max-w-[95%] mx-auto px-4 py-4" style="zoom: 0.85;">
+    <!-- Main Container: True Responsive without hardcoded zoom -->
+    <div class="w-full max-w-7xl 2xl:max-w-[95%] mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
         
         <!-- Header Section -->
-        <header class="mb-6 text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-4">
+        <header class="mb-6 lg:mb-8 text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-4">
             <div>
-                <h1 class="text-2xl md:text-3xl font-bold text-rmutt-navy mb-1">
+                <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-rmutt-navy mb-2 sm:mb-1">
                     <i class="fa-solid fa-chart-line text-rmutt-red mr-2"></i>ระบบสารสนเทศบุคลากรเสนอขอกำหนดตำแหน่งทางวิชาการ
                 </h1>
-                <p class="text-slate-500 font-medium">คณะวิศวกรรมศาสตร์ มหาวิทยาลัยเทคโนโลยีราชมงคลธัญบุรี (ปีงบประมาณ 2566 - 2570)</p>
+                <p class="text-sm md:text-base text-slate-500 font-medium">คณะวิศวกรรมศาสตร์ มหาวิทยาลัยเทคโนโลยีราชมงคลธัญบุรี (ปีงบประมาณ 2566 - 2570)</p>
             </div>
-            <!-- Optional: Logo or System Status could go here -->
+            <!-- System Status -->
             <div class="hidden md:block">
-                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
-                    <i class="fa-solid fa-circle text-[10px] mr-2"></i> ข้อมูลอัปเดตล่าสุด
+                <span class="inline-flex items-center px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium bg-green-100 text-green-800">
+                    <i class="fa-solid fa-circle text-[8px] sm:text-[10px] mr-2"></i> ข้อมูลอัปเดตล่าสุด
                 </span>
             </div>
         </header>
 
         <!-- Section 1: KPI Cards -->
-        <section class="grid grid-cols-1 md:grid-cols-5 gap-3 mb-6">
+        <!-- Responsive Grid: 1 col on mobile, 3 cols on tablet, 5 cols on large desktop -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-5 mb-8">
             <!-- Card 1: Total -->
-            <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-100 hover:shadow-md flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
-                    <i class="fa-solid fa-users text-lg"></i>
+            <div class="bg-white rounded-xl p-4 sm:p-5 shadow-sm border border-slate-100 hover:shadow-md flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-500 shrink-0 text-xl">
+                    <i class="fa-solid fa-users"></i>
                 </div>
                 <div>
-                    <p class="text-[11px] text-slate-500 font-medium mb-0.5">บุคลากรทั้งหมด (ปี 2570)</p>
-                    <h3 class="text-xl font-bold text-slate-800" id="kpi-total">209 <span class="text-xs font-normal text-slate-500">คน</span></h3>
+                    <p class="text-xs sm:text-sm text-slate-500 font-medium mb-1">บุคลากรทั้งหมด (ปี 2570)</p>
+                    <h3 class="text-2xl sm:text-3xl font-bold text-slate-800" id="kpi-total">209 <span class="text-sm font-normal text-slate-500">คน</span></h3>
                 </div>
             </div>
 
             <!-- Card 2: ผศ. -->
-            <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-100 hover:shadow-md flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 shrink-0">
-                    <i class="fa-solid fa-arrow-trend-up text-lg"></i>
+            <div class="bg-white rounded-xl p-4 sm:p-5 shadow-sm border border-slate-100 hover:shadow-md flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center text-orange-500 shrink-0 text-xl">
+                    <i class="fa-solid fa-arrow-trend-up"></i>
                 </div>
                 <div>
-                    <p class="text-[11px] text-slate-500 font-medium mb-0.5">ผู้ช่วยศาสตราจารย์ (ผศ.)</p>
-                    <h3 class="text-xl font-bold text-slate-800" id="kpi-asst-prof">115 <span class="text-xs font-normal text-slate-500">คน</span></h3>
-                    <p class="text-[10px] text-green-600"><i class="fa-solid fa-caret-up mr-1"></i>เพิ่มขึ้นจาก 111</p>
+                    <p class="text-xs sm:text-sm text-slate-500 font-medium mb-1">ผู้ช่วยศาสตราจารย์ (ผศ.)</p>
+                    <h3 class="text-2xl sm:text-3xl font-bold text-slate-800" id="kpi-asst-prof">115 <span class="text-sm font-normal text-slate-500">คน</span></h3>
+                    <p class="text-xs text-green-600"><i class="fa-solid fa-caret-up mr-1"></i>เพิ่มขึ้นจาก 111</p>
                 </div>
             </div>
 
             <!-- Card 3: รศ. -->
-            <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-100 hover:shadow-md flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 shrink-0">
-                    <i class="fa-solid fa-star text-lg"></i>
+            <div class="bg-white rounded-xl p-4 sm:p-5 shadow-sm border border-slate-100 hover:shadow-md flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-500 shrink-0 text-xl">
+                    <i class="fa-solid fa-star"></i>
                 </div>
                 <div>
-                    <p class="text-[11px] text-slate-500 font-medium mb-0.5">รองศาสตราจารย์ (รศ.)</p>
-                    <h3 class="text-xl font-bold text-slate-800" id="kpi-assoc-prof">52 <span class="text-xs font-normal text-slate-500">คน</span></h3>
-                    <p class="text-[10px] text-green-600"><i class="fa-solid fa-caret-up mr-1"></i>เพิ่มขึ้นจาก 42</p>
+                    <p class="text-xs sm:text-sm text-slate-500 font-medium mb-1">รองศาสตราจารย์ (รศ.)</p>
+                    <h3 class="text-2xl sm:text-3xl font-bold text-slate-800" id="kpi-assoc-prof">52 <span class="text-sm font-normal text-slate-500">คน</span></h3>
+                    <p class="text-xs text-green-600"><i class="fa-solid fa-caret-up mr-1"></i>เพิ่มขึ้นจาก 42</p>
                 </div>
             </div>
 
-            <!-- Card 4: ศ. -->
-            <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-100 hover:shadow-md flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-800 shrink-0">
-                    <i class="fa-solid fa-user-graduate text-lg"></i>
+            <!-- Card 4: ศ. (Updated Color to Purple) -->
+            <div class="bg-white rounded-xl p-4 sm:p-5 shadow-sm border border-slate-100 hover:shadow-md flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-500 shrink-0 text-xl">
+                    <i class="fa-solid fa-user-graduate"></i>
                 </div>
                 <div>
-                    <p class="text-[11px] text-slate-500 font-medium mb-0.5">ศาสตราจารย์ (ศ.)</p>
-                    <h3 class="text-xl font-bold text-slate-800" id="kpi-prof">3 <span class="text-xs font-normal text-slate-500">คน</span></h3>
+                    <p class="text-xs sm:text-sm text-slate-500 font-medium mb-1">ศาสตราจารย์ (ศ.)</p>
+                    <h3 class="text-2xl sm:text-3xl font-bold text-slate-800" id="kpi-prof">3 <span class="text-sm font-normal text-slate-500">คน</span></h3>
                 </div>
             </div>
 
             <!-- Card 5: ผศ.พิเศษ -->
-            <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-100 hover:shadow-md flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 shrink-0">
-                    <i class="fa-solid fa-award text-lg"></i>
+            <div class="bg-white rounded-xl p-4 sm:p-5 shadow-sm border border-slate-100 hover:shadow-md flex items-center gap-4 xl:col-span-1 lg:col-span-2 sm:col-span-2">
+                <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-500 shrink-0 text-xl">
+                    <i class="fa-solid fa-award"></i>
                 </div>
                 <div>
-                    <p class="text-[11px] text-slate-500 font-medium mb-0.5">ผศ.พิเศษ</p>
-                    <h3 class="text-xl font-bold text-slate-800" id="kpi-special">1 <span class="text-xs font-normal text-slate-500">คน</span></h3>
+                    <p class="text-xs sm:text-sm text-slate-500 font-medium mb-1">ผศ.พิเศษ</p>
+                    <h3 class="text-2xl sm:text-3xl font-bold text-slate-800" id="kpi-special">1 <span class="text-sm font-normal text-slate-500">คน</span></h3>
                 </div>
             </div>
         </section>
 
         <!-- Main Content Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+        <!-- 1 col on mobile, 2 cols side-by-side on desktop -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
             
-            <!-- Section 2: Chart -->
-            <section class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
-                <h2 class="text-sm font-bold text-slate-800 mb-3 flex items-center">
+            <!-- Section 2: Stacked Bar Chart -->
+            <section class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                <h2 class="text-base sm:text-lg font-bold text-slate-800 mb-4 flex items-center">
                     <i class="fa-solid fa-chart-column mr-2 text-rmutt-navy"></i> แนวโน้มจำนวนผู้ดำรงตำแหน่ง (Bar Chart)
                 </h2>
-                <div class="w-full h-[300px]">
+                <!-- Responsive height container -->
+                <div class="w-full h-[300px] sm:h-[350px]">
                     <canvas id="academicChart"></canvas>
                 </div>
             </section>
             
             <!-- Section 2.5: Line Chart -->
-            <section class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
-                <h2 class="text-sm font-bold text-slate-800 mb-3 flex items-center">
+            <section class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                <h2 class="text-base sm:text-lg font-bold text-slate-800 mb-4 flex items-center">
                     <i class="fa-solid fa-chart-line mr-2 text-rmutt-navy"></i> แนวโน้มการเปลี่ยนแปลงรายปี (Line Chart)
                 </h2>
-                <div class="w-full h-[300px]">
+                <!-- Responsive height container -->
+                <div class="w-full h-[300px] sm:h-[350px]">
                     <canvas id="lineChart"></canvas>
                 </div>
             </section>
@@ -153,29 +157,29 @@
         </div>
 
         <!-- Section 3: Data Table -->
-        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden mb-6">
-            <div class="px-5 py-3 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
-                <h2 class="text-base font-bold text-slate-800">
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden mb-8">
+            <div class="px-6 py-4 border-b border-slate-100 bg-slate-50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <h2 class="text-base sm:text-lg font-bold text-slate-800">
                     <i class="fa-solid fa-table-list mr-2 text-rmutt-navy"></i> ตารางสรุปจำนวนผู้ดำรงตำแหน่ง
                 </h2>
-                <button class="text-xs bg-white border border-slate-300 text-slate-600 px-3 py-1.5 rounded-lg hover:bg-slate-50">
+                <button class="text-xs sm:text-sm bg-white border border-slate-300 text-slate-600 px-4 py-2 rounded-lg hover:bg-slate-50 w-full sm:w-auto">
                     <i class="fa-solid fa-download mr-1"></i> ส่งออกข้อมูล
                 </button>
             </div>
             <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse">
+                <table class="w-full text-left border-collapse min-w-[600px]">
                     <thead>
-                        <tr class="bg-rmutt-navy text-white text-xs">
-                            <th class="px-4 py-3 font-medium text-center">ปีงบประมาณ</th>
-                            <th class="px-4 py-3 font-medium text-center">อาจารย์</th>
-                            <th class="px-4 py-3 font-medium text-center">ผศ.</th>
-                            <th class="px-4 py-3 font-medium text-center">ผศ.พิเศษ</th>
-                            <th class="px-4 py-3 font-medium text-center">รศ.</th>
-                            <th class="px-4 py-3 font-medium text-center">ศ.</th>
-                            <th class="px-4 py-3 font-bold text-center bg-rmutt-red">รวมทั้งหมด</th>
+                        <tr class="bg-rmutt-navy text-white text-xs sm:text-sm">
+                            <th class="px-4 py-3 sm:py-4 font-medium text-center">ปีงบประมาณ</th>
+                            <th class="px-4 py-3 sm:py-4 font-medium text-center">อาจารย์</th>
+                            <th class="px-4 py-3 sm:py-4 font-medium text-center">ผศ.</th>
+                            <th class="px-4 py-3 sm:py-4 font-medium text-center">ผศ.พิเศษ</th>
+                            <th class="px-4 py-3 sm:py-4 font-medium text-center">รศ.</th>
+                            <th class="px-4 py-3 sm:py-4 font-medium text-center">ศ.</th>
+                            <th class="px-4 py-3 sm:py-4 font-bold text-center bg-rmutt-red">รวมทั้งหมด</th>
                         </tr>
                     </thead>
-                    <tbody id="table-body" class="text-xs divide-y divide-slate-100">
+                    <tbody id="table-body" class="text-xs sm:text-sm divide-y divide-slate-100">
                         <!-- Table rows will be populated by JS -->
                     </tbody>
                 </table>
@@ -183,9 +187,9 @@
         </section>
 
         <!-- Footer -->
-        <footer class="bg-indigo-50 border-l-4 border-indigo-600 p-3 rounded-r-lg shadow-sm flex items-start sm:items-center gap-3">
-            <i class="fa-solid fa-lightbulb text-indigo-600 mt-0.5 text-base"></i>
-            <p class="text-indigo-900 text-xs md:text-sm leading-relaxed">
+        <footer class="bg-indigo-50 border-l-4 border-indigo-600 p-4 sm:p-5 rounded-r-lg shadow-sm flex items-start gap-4">
+            <i class="fa-solid fa-lightbulb text-indigo-600 mt-1 text-lg shrink-0"></i>
+            <p class="text-indigo-900 text-xs sm:text-sm md:text-base leading-relaxed">
                 <strong>ข้อสังเกต:</strong> คณะวิศวกรรมศาสตร์มีแนวโน้มการเพิ่มขึ้นของบุคลากรที่ดำรงตำแหน่งทางวิชาการระดับสูงอย่างต่อเนื่อง สะท้อนถึงศักยภาพด้านการจัดการศึกษา การวิจัย และการพัฒนาทรัพยากรบุคคลของคณะ
             </p>
         </footer>
@@ -194,19 +198,6 @@
 
     <!-- Scripts -->
     <script>
-        /**
-         * ข้อมูลจำลอง (Mock Data) สำหรับรอเชื่อมต่อกับ Google Sheets
-         * 
-         * หากต้องการนำไปต่อกับ Google Sheets ให้สร้างแท็บ/Sheet และคอลัมน์ดังนี้:
-         * แถวที่ 1 (หัวคอลัมน์):
-         * A1: "ปีงบประมาณ"
-         * B1: "อาจารย์"
-         * C1: "ผศ."
-         * D1: "ผศ.พิเศษ"
-         * E1: "รศ."
-         * F1: "ศ."
-         */
-        
         const rawDataFromGoogleSheets = [
             { year: '2566', achan: 47, asst_prof: 111, special_asst: 0, assoc_prof: 42, prof: 1 },
             { year: '2567', achan: 51, asst_prof: 107, special_asst: 0, assoc_prof: 47, prof: 1 },
@@ -214,6 +205,15 @@
             { year: '2569', achan: 39, asst_prof: 120, special_asst: 1, assoc_prof: 51, prof: 3 },
             { year: '2570', achan: 38, asst_prof: 115, special_asst: 1, assoc_prof: 52, prof: 3 }
         ];
+
+        // กำหนดสีตามความต้องการ
+        const colors = {
+            achan: '#3B82F6',       // Blue
+            asstProf: '#F97316',    // Orange
+            specialAsst: '#22C55E', // Green
+            assocProf: '#EAB308',   // Yellow
+            prof: '#A855F7'         // Purple
+        };
 
         // 1. ฟังก์ชันสร้างตาราง
         function renderTable(data) {
@@ -228,19 +228,19 @@
                 tr.className = `hover:bg-blue-50 transition-colors ${isEven ? 'bg-white' : 'bg-slate-50'}`;
                 
                 tr.innerHTML = `
-                    <td class="px-4 py-3 font-semibold text-center text-slate-800">${row.year}</td>
-                    <td class="px-4 py-3 text-center text-slate-600">${row.achan}</td>
-                    <td class="px-4 py-3 text-center text-slate-600">${row.asst_prof}</td>
-                    <td class="px-4 py-3 text-center text-slate-600">${row.special_asst === 0 ? '-' : row.special_asst}</td>
-                    <td class="px-4 py-3 text-center text-slate-600">${row.assoc_prof}</td>
-                    <td class="px-4 py-3 text-center text-slate-600">${row.prof}</td>
-                    <td class="px-4 py-3 text-center font-bold text-rmutt-navy bg-slate-100/50">${total}</td>
+                    <td class="px-4 py-4 font-semibold text-center text-slate-800">${row.year}</td>
+                    <td class="px-4 py-4 text-center text-slate-600">${row.achan}</td>
+                    <td class="px-4 py-4 text-center text-slate-600">${row.asst_prof}</td>
+                    <td class="px-4 py-4 text-center text-slate-600">${row.special_asst === 0 ? '-' : row.special_asst}</td>
+                    <td class="px-4 py-4 text-center text-slate-600">${row.assoc_prof}</td>
+                    <td class="px-4 py-4 text-center text-slate-600">${row.prof}</td>
+                    <td class="px-4 py-4 text-center font-bold text-rmutt-navy bg-slate-100/50">${total}</td>
                 `;
                 tbody.appendChild(tr);
             });
         }
 
-        // 2. ฟังก์ชันสร้างกราฟ Stacked Bar Chart แบบล้ำๆ
+        // 2. ฟังก์ชันสร้างกราฟ Stacked Bar Chart
         function renderChart(data) {
             const ctx = document.getElementById('academicChart').getContext('2d');
             
@@ -251,95 +251,42 @@
             const assocProfData = data.map(d => d.assoc_prof);
             const profData = data.map(d => d.prof);
 
-            // Chart.js Configuration
             new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: labels,
                     datasets: [
-                        {
-                            label: 'อาจารย์',
-                            data: achanData,
-                            backgroundColor: '#3B82F6', // Blue
-                            borderRadius: 4,
-                            barPercentage: 0.6
-                        },
-                        {
-                            label: 'ผศ.',
-                            data: asstProfData,
-                            backgroundColor: '#F97316', // Orange
-                            borderRadius: 4,
-                            barPercentage: 0.6
-                        },
-                        {
-                            label: 'ผศ.พิเศษ',
-                            data: specialAsstData,
-                            backgroundColor: '#22C55E', // Green
-                            borderRadius: 4,
-                            barPercentage: 0.6
-                        },
-                        {
-                            label: 'รศ.',
-                            data: assocProfData,
-                            backgroundColor: '#EAB308', // Yellow
-                            borderRadius: 4,
-                            barPercentage: 0.6
-                        },
-                        {
-                            label: 'ศ.',
-                            data: profData,
-                            backgroundColor: '#6366F1', // Indigo
-                            borderRadius: 4,
-                            barPercentage: 0.6
-                        }
+                        { label: 'อาจารย์', data: achanData, backgroundColor: colors.achan, borderRadius: 4, barPercentage: 0.6 },
+                        { label: 'ผศ.', data: asstProfData, backgroundColor: colors.asstProf, borderRadius: 4, barPercentage: 0.6 },
+                        { label: 'ผศ.พิเศษ', data: specialAsstData, backgroundColor: colors.specialAsst, borderRadius: 4, barPercentage: 0.6 },
+                        { label: 'รศ.', data: assocProfData, backgroundColor: colors.assocProf, borderRadius: 4, barPercentage: 0.6 },
+                        { label: 'ศ.', data: profData, backgroundColor: colors.prof, borderRadius: 4, barPercentage: 0.6 }
                     ]
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: false,
-                    interaction: {
-                        mode: 'index',
-                        intersect: false,
-                    },
+                    maintainAspectRatio: false, // สำคัญ: เพื่อให้กราฟขยายตามความสูงของคอนเทนเนอร์
+                    interaction: { mode: 'index', intersect: false },
                     plugins: {
                         legend: {
                             position: 'bottom',
-                            labels: {
-                                padding: 15,
-                                font: { family: "'Prompt', sans-serif", size: 12 },
-                                usePointStyle: true,
-                                boxWidth: 8
-                            }
+                            labels: { padding: 15, font: { family: "'Prompt', sans-serif", size: 12 }, usePointStyle: true, boxWidth: 8 }
                         },
                         tooltip: {
-                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
-                            titleFont: { family: "'Prompt', sans-serif", size: 13 },
-                            bodyFont: { family: "'Prompt', sans-serif", size: 12 },
-                            padding: 10,
-                            cornerRadius: 8,
-                            itemSort: function(a, b) {
-                                return b.datasetIndex - a.datasetIndex;
-                            }
+                            backgroundColor: 'rgba(15, 23, 42, 0.9)', titleFont: { family: "'Prompt', sans-serif", size: 13 },
+                            bodyFont: { family: "'Prompt', sans-serif", size: 12 }, padding: 10, cornerRadius: 8,
+                            itemSort: (a, b) => b.datasetIndex - a.datasetIndex
                         }
                     },
                     scales: {
-                        x: {
-                            stacked: true,
-                            grid: { display: false },
-                            ticks: { font: { family: "'Prompt', sans-serif" } }
-                        },
-                        y: {
-                            stacked: true,
-                            border: { display: false },
-                            grid: { color: '#f1f5f9' },
-                            ticks: { font: { family: "'Prompt', sans-serif" } }
-                        }
+                        x: { stacked: true, grid: { display: false }, ticks: { font: { family: "'Prompt', sans-serif" } } },
+                        y: { stacked: true, border: { display: false }, grid: { color: '#f1f5f9' }, ticks: { font: { family: "'Prompt', sans-serif" } } }
                     }
                 }
             });
         }
 
-        // 3. ฟังก์ชันสร้างกราฟ Line Chart เพื่อดูแนวโน้ม
+        // 3. ฟังก์ชันสร้างกราฟ Line Chart
         function renderLineChart(data) {
             const ctx = document.getElementById('lineChart').getContext('2d');
             
@@ -355,48 +302,30 @@
                 data: {
                     labels: labels,
                     datasets: [
-                        { label: 'อาจารย์', data: achanData, borderColor: '#3B82F6', backgroundColor: '#3B82F6', tension: 0.3, pointRadius: 4, pointHoverRadius: 6 },
-                        { label: 'ผศ.', data: asstProfData, borderColor: '#F97316', backgroundColor: '#F97316', tension: 0.3, pointRadius: 4, pointHoverRadius: 6 },
-                        { label: 'ผศ.พิเศษ', data: specialAsstData, borderColor: '#22C55E', backgroundColor: '#22C55E', tension: 0.3, pointRadius: 4, pointHoverRadius: 6 },
-                        { label: 'รศ.', data: assocProfData, borderColor: '#EAB308', backgroundColor: '#EAB308', tension: 0.3, pointRadius: 4, pointHoverRadius: 6 },
-                        { label: 'ศ.', data: profData, borderColor: '#6366F1', backgroundColor: '#6366F1', tension: 0.3, pointRadius: 4, pointHoverRadius: 6 }
+                        { label: 'อาจารย์', data: achanData, borderColor: colors.achan, backgroundColor: colors.achan, tension: 0.3, pointRadius: 4, pointHoverRadius: 6 },
+                        { label: 'ผศ.', data: asstProfData, borderColor: colors.asstProf, backgroundColor: colors.asstProf, tension: 0.3, pointRadius: 4, pointHoverRadius: 6 },
+                        { label: 'ผศ.พิเศษ', data: specialAsstData, borderColor: colors.specialAsst, backgroundColor: colors.specialAsst, tension: 0.3, pointRadius: 4, pointHoverRadius: 6 },
+                        { label: 'รศ.', data: assocProfData, borderColor: colors.assocProf, backgroundColor: colors.assocProf, tension: 0.3, pointRadius: 4, pointHoverRadius: 6 },
+                        { label: 'ศ.', data: profData, borderColor: colors.prof, backgroundColor: colors.prof, tension: 0.3, pointRadius: 4, pointHoverRadius: 6 }
                     ]
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: false,
-                    interaction: {
-                        mode: 'index',
-                        intersect: false,
-                    },
+                    maintainAspectRatio: false, // สำคัญ: เพื่อให้กราฟขยายตามความสูงของคอนเทนเนอร์
+                    interaction: { mode: 'index', intersect: false },
                     plugins: {
                         legend: {
                             position: 'bottom',
-                            labels: {
-                                padding: 15,
-                                font: { family: "'Prompt', sans-serif", size: 12 },
-                                usePointStyle: true,
-                                boxWidth: 8
-                            }
+                            labels: { padding: 15, font: { family: "'Prompt', sans-serif", size: 12 }, usePointStyle: true, boxWidth: 8 }
                         },
                         tooltip: {
-                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
-                            titleFont: { family: "'Prompt', sans-serif", size: 13 },
-                            bodyFont: { family: "'Prompt', sans-serif", size: 12 },
-                            padding: 10,
-                            cornerRadius: 8,
+                            backgroundColor: 'rgba(15, 23, 42, 0.9)', titleFont: { family: "'Prompt', sans-serif", size: 13 },
+                            bodyFont: { family: "'Prompt', sans-serif", size: 12 }, padding: 10, cornerRadius: 8
                         }
                     },
                     scales: {
-                        x: {
-                            grid: { display: false },
-                            ticks: { font: { family: "'Prompt', sans-serif" } }
-                        },
-                        y: {
-                            border: { display: false },
-                            grid: { color: '#f1f5f9' },
-                            ticks: { font: { family: "'Prompt', sans-serif" } }
-                        }
+                        x: { grid: { display: false }, ticks: { font: { family: "'Prompt', sans-serif" } } },
+                        y: { border: { display: false }, grid: { color: '#f1f5f9' }, ticks: { font: { family: "'Prompt', sans-serif" } } }
                     }
                 }
             });
@@ -406,10 +335,7 @@
         window.onload = function() {
             renderTable(rawDataFromGoogleSheets);
             renderChart(rawDataFromGoogleSheets);
-            renderLineChart(rawDataFromGoogleSheets); // แสดง Line Chart
-            
-            // หมายเหตุ: โค้ดส่วนนี้คือจุดที่จะเพิ่มฟังก์ชัน fetch('YOUR_GOOGLE_APP_SCRIPT_URL') 
-            // เพื่อดึงข้อมูล JSON มาแทนที่ rawDataFromGoogleSheets ในอนาคต
+            renderLineChart(rawDataFromGoogleSheets);
         };
     </script>
 </body>

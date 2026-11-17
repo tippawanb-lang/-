@@ -71,7 +71,7 @@
         </div>
 
         <div id="dashboard-content" class="hidden pb-10">
-            <!-- Header Background (น้ำเงินไล่สีแดง) -->
+            <!-- Header Background -->
             <div class="bg-gradient-to-r from-blue-900 to-red-800 pt-8 pb-24 px-8 flex flex-col md:flex-row justify-between items-start md:items-center">
                 <div class="mb-4 md:mb-0">
                     <h1 class="text-3xl font-bold text-white mb-1 shadow-sm">สถิติตำแหน่งทางวิชาการ</h1>
@@ -86,7 +86,7 @@
                 </div>
             </div>
 
-            <!-- Top Cards (5 การ์ด ซ้อนทับ Header) -->
+            <!-- Top Cards (5 การ์ด) -->
             <div class="flex flex-wrap gap-4 px-8 -mt-14 relative z-10">
                 <!-- Card 1: รวม -->
                 <div class="bg-white rounded-2xl shadow-xl p-6 flex-1 min-w-[200px] border-b-4 border-blue-500 transform hover:-translate-y-1 transition duration-300">
@@ -139,7 +139,7 @@
                 </div>
             </div>
 
-            <!-- Charts Section (Stacked Bar & Line Chart) -->
+            <!-- Charts Section -->
             <div class="flex flex-col xl:flex-row gap-6 px-8 mt-8">
                 <div class="bg-white rounded-2xl shadow-lg p-6 flex-1 border border-gray-100">
                     <h3 class="text-gray-800 font-bold mb-4 text-lg">สถิติบุคลากรแต่ละปี <span class="text-sm font-normal text-gray-500">(Stacked Bar)</span></h3>
@@ -155,7 +155,7 @@
                 </div>
             </div>
 
-            <!-- Bottom Widgets (Donut Chart & Data Table) -->
+            <!-- Bottom Widgets -->
             <div class="flex flex-col xl:flex-row gap-6 px-8 mt-6">
                 <!-- Donut Chart -->
                 <div class="bg-white rounded-2xl shadow-lg p-6 w-full xl:w-1/3 border border-gray-100">
@@ -189,41 +189,40 @@
     </main>
 
     <script>
-        // API URL ที่ได้จาก Google Apps Script
         const API_URL = "https://script.google.com/macros/s/AKfycbwVTcnQ41XOtXPNTbDWW9xcKpAA4EzlvtWGH0tmw_JBlTi4K188lOE7vL2_CD7j2jA/exec";
         
         let globalData = [];
         let donutChartInstance = null;
 
-        // สีสำหรับแต่ละตำแหน่ง
         const colors = {
-            lecturer: '#3b82f6', // น้ำเงิน
-            asst_prof: '#f97316', // ส้ม
-            spec_asst_prof: '#22c55e', // เขียว
-            assoc_prof: '#eab308', // เหลือง
-            prof: '#a855f7' // ม่วง
+            lecturer: '#3b82f6',
+            asst_prof: '#f97316',
+            spec_asst_prof: '#22c55e',
+            assoc_prof: '#eab308',
+            prof: '#a855f7'
         };
 
-        // เริ่มต้นทำงานเมื่อโหลดหน้าเว็บ
         window.addEventListener('DOMContentLoaded', fetchGoogleSheetData);
 
         async function fetchGoogleSheetData() {
             try {
                 const response = await fetch(API_URL);
-                const data = await response.json();
+                const rawData = await response.json();
                 
-                // แปลงค่าที่เป็น String ให้เป็น Number เผื่อความชัวร์
-                globalData = data.map(d => ({
-                    year: d.year,
-                    lecturer: Number(d.lecturer || 0),
-                    asst_prof: Number(d.asst_prof || 0),
-                    spec_asst_prof: Number(d.spec_asst_prof || 0),
-                    assoc_prof: Number(d.assoc_prof || 0),
-                    prof: Number(d.prof || 0),
-                    total: Number(d.total || 0)
-                }));
+                // กรองข้อมูล: เอาเฉพาะแถวที่มีข้อมูล "ปี" และแปลงเป็น Number
+                globalData = rawData
+                    .filter(d => d.year && String(d.year).trim() !== '')
+                    .map(d => ({
+                        year: Number(d.year),
+                        lecturer: Number(d.lecturer || 0),
+                        asst_prof: Number(d.asst_prof || 0),
+                        spec_asst_prof: Number(d.spec_asst_prof || 0),
+                        assoc_prof: Number(d.assoc_prof || 0),
+                        prof: Number(d.prof || 0),
+                        total: Number(d.total || 0)
+                    }))
+                    .sort((a, b) => a.year - b.year); // เรียงตามปีจากน้อยไปมากสำหรับกราฟ
 
-                // ซ่อน Loader และแสดงเนื้อหา
                 document.getElementById('loader-screen').style.display = 'none';
                 document.getElementById('dashboard-content').classList.remove('hidden');
 
@@ -235,36 +234,38 @@
         }
 
         function initDashboard() {
-            if(globalData.length === 0) return;
+            if(globalData.length === 0) {
+                document.getElementById('dashboard-content').innerHTML = '<div class="p-10 text-center text-gray-500 text-xl font-bold">ไม่มีข้อมูลที่จะแสดงผล กรุณาเพิ่มข้อมูลใน Google Sheet</div>';
+                return;
+            }
 
-            // 1. สร้างตัวเลือก Dropdown ปีงบประมาณ
             const selectEl = document.getElementById('yearSelect');
-            globalData.forEach(d => {
+            
+            // คัดลอกข้อมูลมาเรียงใหม่จาก ปีล่าสุด -> ปีเก่าสุด เพื่อใส่ใน Dropdown ให้เลือกง่าย
+            const sortedYearsForDropdown = [...globalData].sort((a, b) => b.year - a.year);
+            
+            sortedYearsForDropdown.forEach(d => {
                 let opt = document.createElement('option');
                 opt.value = d.year;
                 opt.innerText = d.year;
                 selectEl.appendChild(opt);
             });
-            // เลือกปีล่าสุดเป็นค่าเริ่มต้น
-            const latestYear = globalData[globalData.length - 1].year;
+
+            // หาปีล่าสุด (สูงสุด) มาเป็นค่าเริ่มต้น
+            const latestYear = sortedYearsForDropdown[0].year;
             selectEl.value = latestYear;
 
-            // 2. วาดกราฟที่แสดงผลทุกปี (Main Charts)
             drawMainCharts();
-
-            // 3. วาดข้อมูลตาราง (ทุกปี)
             drawTable();
-
-            // 4. อัปเดตข้อมูลการ์ดและโดนัทชาร์ตตามปีที่เลือก
+            
+            // แสดงข้อมูลของการ์ดโดยอิงจากปีล่าสุด
             updateDynamicData(latestYear);
 
-            // 5. จับเหตุการณ์เมื่อเปลี่ยนปี
             selectEl.addEventListener('change', (e) => {
                 updateDynamicData(e.target.value);
             });
         }
 
-        // ฟังก์ชันสร้างข้อความแสดงส่วนต่าง (เพิ่ม/ลด)
         function getDiffHTML(curr, prev) {
             if (prev === null || prev === undefined) return `<span class="text-gray-400 text-sm font-medium">ไม่มีข้อมูลปีก่อนหน้า</span>`;
             let diff = curr - prev;
@@ -274,11 +275,14 @@
         }
 
         function updateDynamicData(selectedYear) {
+            // ค้นหา Index ของปีที่เลือกในข้อมูลที่เรียงแล้ว (น้อยไปมาก)
             const currIdx = globalData.findIndex(d => d.year == selectedYear);
+            if(currIdx === -1) return;
+
             const curr = globalData[currIdx];
+            // ดึงข้อมูลปีก่อนหน้า (ถ้ามี)
             const prev = currIdx > 0 ? globalData[currIdx - 1] : null;
 
-            // อัปเดตการ์ด
             document.getElementById('val-total').innerText = curr.total;
             document.getElementById('diff-total').innerHTML = getDiffHTML(curr.total, prev ? prev.total : null);
 
@@ -294,11 +298,9 @@
             document.getElementById('val-prof').innerText = curr.prof;
             document.getElementById('diff-prof').innerHTML = getDiffHTML(curr.prof, prev ? prev.prof : null);
 
-            // อัปเดต Donut Chart
             document.getElementById('donut-year-label').innerText = selectedYear;
             drawDonutChart(curr);
             
-            // ไฮไลต์แถวในตาราง
             const rows = document.querySelectorAll('#table-body tr');
             rows.forEach(row => {
                 row.classList.remove('bg-blue-50', 'border-l-4', 'border-blue-500');
@@ -311,7 +313,6 @@
         function drawMainCharts() {
             const labels = globalData.map(d => d.year);
             
-            // 1. Stacked Bar Chart (ฝั่งซ้าย)
             const ctxStacked = document.getElementById('stackedBarChart').getContext('2d');
             new Chart(ctxStacked, {
                 type: 'bar',
@@ -335,7 +336,6 @@
                 }
             });
 
-            // 2. Line Chart (ฝั่งขวา)
             const ctxLine = document.getElementById('lineChart').getContext('2d');
             new Chart(ctxLine, {
                 type: 'line',
